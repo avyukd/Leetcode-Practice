@@ -3,7 +3,7 @@ public:
     int consecutiveNumbersSum(int x) {
         //idea 3 -- check the math on this later
         int total = 1;
-        for(int n = 2 ; n <= (x/2 + 1); n++){
+        for(int n = 2 ; n <= sqrt(2 * x); n++){
             if( (2 * x) % n == 0){
                 if( ( (2 * x) / n ) > (n-1) ){
                     if( ( ( (2 * x) / n ) - (n-1) ) % 2 == 0){
