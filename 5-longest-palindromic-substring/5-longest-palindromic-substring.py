@@ -1,20 +1,20 @@
 class Solution:
     
      def longestPalindrome(self, s: str) -> str:
-        n = len(s)
-        dp = [[False] * n for _ in range(n)]
-        for i in range(n):
-            dp[i][i] = True
-        longest_palindrome_start, longest_palindrome_len = 0, 1
+        memo = [[0] * len(s) for _ in range(len(s))]
+        
+        for i in range(len(s)):
+            memo[i][i] = 1
+        
+        longest_start, longest_len = 0, 1
 
-        for end in range(0, n):
-            for start in range(end - 1, -1, -1):
-                # print('start: %s, end: %s' % (start, end))
-                if s[start] == s[end]:
-                    if end - start == 1 or dp[start + 1][end - 1]:
-                        dp[start][end] = True
-                        palindrome_len = end - start + 1
-                        if longest_palindrome_len < palindrome_len:
-                            longest_palindrome_start = start
-                            longest_palindrome_len = palindrome_len
-        return s[longest_palindrome_start: longest_palindrome_start + longest_palindrome_len]
+        for i in range(len(s)):
+            for j in range(i - 1, -1, -1):
+                if s[i] == s[j]:
+                    if i - j + 1 == 2 or memo[j + 1][i - 1]:
+                        memo[j][i] = 1
+                        palindrome_len = i - j + 1
+                        if longest_len < palindrome_len:
+                            longest_start = j
+                            longest_len = palindrome_len
+        return s[longest_start : longest_start + longest_len]
