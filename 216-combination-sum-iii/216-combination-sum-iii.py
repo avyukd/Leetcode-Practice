@@ -5,7 +5,7 @@ class Solution:
         results = []
         def backtrack(remain, comb, next_start):
             if remain == 0 and len(comb) == k:
-                results.append(list(comb))
+                results.append(comb.copy())
                 return
             elif remain < 0 or len(comb) == k:
                 return
