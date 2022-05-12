@@ -1,17 +1,23 @@
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         results = []
-        seen = set()
         
-        def backtrack(comb, remain):
-            if len(remain) == 0 and tuple(comb) not in seen:
-                seen.add(tuple(comb))
+        def backtrack(comb, counter):
+            if len(comb) == len(nums):
                 results.append(comb.copy())
+                return
             
-            for i in range(len(remain)):
-                comb.append(remain[i])
-                backtrack(comb, remain[:i]+remain[i+1:])
-                comb.pop()
+            for num in counter:
+                if counter[num] > 0:
+                    comb.append(num)
+                    counter[num] -= 1
+                    
+                    backtrack(comb, counter)
+                    
+                    comb.pop()
+                    counter[num] += 1
         
-        backtrack([],nums)
+        # Counter = frequency dictionary (from collections import Counter)
+        # equivalent to doing: 
+        backtrack([],Counter(nums))
         return results
