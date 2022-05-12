@@ -8,7 +8,6 @@ class Solution:
         levels = len(matrix) // 2 # if even, / 2. if odd, / 2 floor
         
         for level in range(levels):
-            print(len(matrix) - 2 * level)
             for i in range(len(matrix) - 2 * level - 1):
                 # get group of 4 corners
                 corner1 = (level, level + i)
