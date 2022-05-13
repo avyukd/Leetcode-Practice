@@ -1,20 +1,26 @@
-# class Solution:
-#     def canJump(self, nums: List[int]) -> bool:
-#         # GREEDY
-        
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        memo = [0] * len(nums)
-        memo[-1] = 1
+        leftmostgood = len(nums) - 1
         for i in range(len(nums) - 2, -1, -1):
             maxJump = min(len(nums) - 1, i + nums[i])
-            for j in range(i+1, maxJump+1):
-                if memo[j]:
-                    memo[i] = 1
-                    break
-        print(memo)
-        return memo[0]
+            print(maxJump)
+            print(leftmostgood)
+            if maxJump >= leftmostgood:
+                leftmostgood = min(i, leftmostgood)
+        return leftmostgood == 0
+# class Solution:
+#     def canJump(self, nums: List[int]) -> bool:
+#         memo = [0] * len(nums)
+#         memo[-1] = 1
+#         for i in range(len(nums) - 2, -1, -1):
+#             maxJump = min(len(nums) - 1, i + nums[i])
+#             for j in range(i+1, maxJump+1):
+#                 if memo[j]:
+#                     memo[i] = 1
+#                     break
+#         print(memo)
+#         return memo[0]
 #    def canJump(self, nums: List[int]) -> bool:
 #         # idx i is 1 if we can go from 0 to i
 #         if len(nums) <= 1:
