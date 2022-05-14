@@ -1,4 +1,3 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        return math.factorial(n - 1 + m - 1) // (math.factorial(n-1) * math.factorial(m-1))
-        
+        return math.comb(m + n - 2, n - 1)
