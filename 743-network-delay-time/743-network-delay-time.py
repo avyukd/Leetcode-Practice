@@ -3,8 +3,8 @@ class Solution:
         edges = defaultdict(list)
         for time in times:
             edges[time[0]].append((time[1],time[2]))
-        for time in times:
-            edges[time[0]].sort(key=lambda x: x[1], reverse=True)
+        #for time in times:
+        #    edges[time[0]].sort(key=lambda x: x[1], reverse=True)
         
         visited = [1000]*(n+1)
         
