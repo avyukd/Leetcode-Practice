@@ -21,4 +21,3 @@ class Solution:
         
         answer = max(visited[1:])
         return -1 if answer == 1000 else answer 
-                
