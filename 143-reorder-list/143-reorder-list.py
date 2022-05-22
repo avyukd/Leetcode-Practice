@@ -32,9 +32,6 @@ class Solution:
             toins = stack.pop()
             tmphead.next = toins
             toins.next = nxt
-            print(tmphead.val)
-            print(toins.val)
-            print(nxt.val)
             tmphead = nxt
         tmphead.next = None
         return head
