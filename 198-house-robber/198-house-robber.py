@@ -28,7 +28,8 @@ class Solution:
                     else:
                         right = robHelper(i + 2, end)
                         memo[(i + 2, end)] = right
-                maxAmt = max(left + right + nums[i], maxAmt)               
+                maxAmt = max(left + right + nums[i], maxAmt)
+            memo[(start, end)] = maxAmt
             return maxAmt
         
         if len(nums) == 0:
