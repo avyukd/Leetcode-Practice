@@ -1,12 +1,11 @@
 class NumArray {
     vector<int> cumSum; 
 public:
-    NumArray(vector<int>& numsIn) {
+    NumArray(vector<int>& numsIn) : cumSum(numsIn.size()+1, 0) {
         int curr = 0;
-        cumSum.push_back(0);
         for(int i = 0 ; i < numsIn.size(); i++){
             curr += numsIn[i];
-            cumSum.push_back(curr);
+            cumSum[i+1] = curr;
         }
     }
     
