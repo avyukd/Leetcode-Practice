@@ -1,22 +1,26 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        
+        islands = 0
+        
         m, n = len(grid), len(grid[0])
-        numIslands = 0
+        visited = set()
         
-        def expandIsland(row, col):
-            queue = deque([(row, col)])
-            while queue:
-                nxt = queue.popleft()
-                if nxt[0] >= 0 and nxt[0] < m and nxt[1] >= 0 and nxt[1] < n and grid[nxt[0]][nxt[1]] == "1":
-                    grid[nxt[0]][nxt[1]] = "x"
-                    queue.extend([(nxt[0] + 1, nxt[1]), (nxt[0] - 1, nxt[1]),  
-                                  (nxt[0], nxt[1] + 1), (nxt[0], nxt[1] - 1)])
+        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
         
-        for row in range(m):
-            for col in range(n):
-                if grid[row][col] == "1":
-                    numIslands += 1
-                    expandIsland(row, col)
+        def dfs(i, j):
+            if (i, j) not in visited and grid[i][j] == "1":
+                visited.add((i, j))
+                for direction in directions:
+                    next_i, next_j = i + direction[0], j + direction[1]
+                    if 0 <= next_i < m and 0 <= next_j < n:
+                        dfs(next_i, next_j)
+                
         
-        return numIslands
+        for i in range(m):
+            for j in range(n):
+                if (i, j) not in visited and grid[i][j] == "1":
+                    dfs(i, j)
+                    islands += 1
         
+        return islands
