@@ -3,7 +3,7 @@ class Solution:
         seen = {}
         for i in range(len(nums)):
             if target - nums[i] in seen:
-                return [i, seen[target - nums[i]]]
+                return [seen[target - nums[i]], i]
             else:
                 seen[nums[i]] = i
         return []
