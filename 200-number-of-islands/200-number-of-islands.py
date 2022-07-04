@@ -2,36 +2,23 @@ from collections import deque
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        
-        islands = 0
-        
         m, n = len(grid), len(grid[0])
-        visited = set()
-        
+        islands = 0
         directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
         
-        def dfs(og_i, og_j):
-            stack = deque([(og_i, og_j)])
+        def dfs(i_in, j_in):
+            stack = deque([(i_in, j_in)])
             while stack:
                 (i, j) = stack.pop()
-                if grid[i][j] == "1" and (i, j) not in visited:
-                    visited.add((i, j))
+                if 0 <= i < m and 0 <= j < n and grid[i][j] == "1":
+                    grid[i][j] = "0"
                     for direction in directions:
                         next_i, next_j = i + direction[0], j + direction[1]
-                        if 0 <= next_i < m and 0 <= next_j < n:
-                            stack.append((next_i, next_j))
-            
-#             if (i, j) not in visited and grid[i][j] == "1":
-#                 visited.add((i, j))
-#                 for direction in directions:
-#                     next_i, next_j = i + direction[0], j + direction[1]
-#                     if 0 <= next_i < m and 0 <= next_j < n:
-#                         dfs(next_i, next_j)
-                
+                        stack.append((next_i, next_j))
         
         for i in range(m):
             for j in range(n):
-                if (i, j) not in visited and grid[i][j] == "1":
+                if grid[i][j] == "1":
                     dfs(i, j)
                     islands += 1
         
