@@ -3,8 +3,6 @@ class Solution:
         result = set()
         n = len(nums)
         def backtrack(indices):
-            if len(result) == 2**n:
-                return
             subset = []
             for i in range(n):
                 if indices[i]:
