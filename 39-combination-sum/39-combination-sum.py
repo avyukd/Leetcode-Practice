@@ -3,7 +3,7 @@ class Solution:
         res = []
         def backtrack(remain, comb, start):
             if remain == 0:
-                res.append(comb.copy())
+                res.append(comb[:])
                 return
             elif remain < 0:
                 return
@@ -11,27 +11,7 @@ class Solution:
                 backtrack(remain - candidates[i], comb + [candidates[i]], i)
         backtrack(target, [], 0)
         return res
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     #     def combinationSum(candidates, target):
 #         result = []
 #         def backtrack(remain, comb, start):
