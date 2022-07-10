@@ -7,8 +7,8 @@ class Solution:
         m, n = len(rooms), len(rooms[0])
         INF = 2**31 - 1
         directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
-        def bfs(i_in, j_in):
-            queue = deque([(i_in, j_in)])
+        def bfs(gates):
+            queue = deque(gates)
             depth = 0
             visited = set()
             while queue:
@@ -26,9 +26,11 @@ class Solution:
                                     queue.append((next_i, next_j))
                 depth += 1
         
+        gates = []
         for i in range(m):
             for j in range(n):
                 if rooms[i][j] == 0:
-                    bfs(i, j)
+                    gates.append((i, j))
+        bfs(gates)
         
         
