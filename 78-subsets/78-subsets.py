@@ -1,16 +1,40 @@
 class Solution:
     def subsets(self, nums):
         n = len(nums)
-        res, subset = [], []
-        def dfs(i):
-            if i == n:
-                res.append(subset.copy())
-                return
-            subset.append(nums[i])
-            dfs(i+1)
-            subset.pop()
-            dfs(i+1)
-        dfs(0)
+        res = []
+        for i in range(2**n, 2**(n+1)):
+            subset = []
+            for j, ch in enumerate(str(bin(i)[3:])):
+                if ch == "1":
+                    subset.append(nums[j])
+            res.append(subset)
+        return res
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # def subsets(self, nums):
+    #     n = len(nums)
+    #     res, subset = [], []
+    #     def dfs(i):
+    #         if i == n:
+    #             res.append(subset.copy())
+    #             return
+    #         subset.append(nums[i])
+    #         dfs(i+1)
+    #         subset.pop()
+    #         dfs(i+1)
+    #     dfs(0)
         return res
 #     def subsets(self, nums):
 #         for i in range(2**len(nums), 2**(len(nums)+1)):
