@@ -1,5 +1,14 @@
 class Solution:
     def subsets(self, nums):
+        n, res = len(nums), []
+        def backtrack(i, subset):
+            if i >= n:
+                res.append(subset[:])
+            backtrack(i + 1, subset)
+            backtrack(i + 1, subset + [nums[i]])
+        return res
+    
+    def subsets(self, nums):
         n = len(nums)
         res = []
         for i in range(2**n, 2**(n+1)):
@@ -9,19 +18,6 @@ class Solution:
                     subset.append(nums[j])
             res.append(subset)
         return res
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     # def subsets(self, nums):
     #     n = len(nums)
