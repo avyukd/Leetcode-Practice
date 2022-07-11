@@ -19,6 +19,4 @@ class Solution:
             else:
                 res.append(rightProd[i + 1] * leftProd[i - 1])
             
-        print(leftProd)
-        print(rightProd)
         return res
