@@ -1,15 +1,38 @@
 class Solution:
     def findTargetSumWays(self, nums, target):
         memo = {}
-        
-        def backtrack(i, total):
+        def backtrack(i, val):
             if i == len(nums):
-                return 1 if total == target else 0
-            if (i, total) in memo:
-                return memo[(i, total)]
-            memo[(i, total)] = backtrack(i+1, total+nums[i]) + backtrack(i+1, total-nums[i])
-            return memo[(i, total)]
+                return 1 if val == target else 0
+            if (i, val) in memo:
+                return memo[(i, val)]
+            memo[(i, val)] = backtrack(i + 1, val - nums[i]) + backtrack(i + 1, val + nums[i])
+            return memo[(i, val)]
         return backtrack(0, 0)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+#     def findTargetSumWays(self, nums, target):
+#         memo = {}
+        
+#         def backtrack(i, total):
+#             if i == len(nums):
+#                 return 1 if total == target else 0
+#             if (i, total) in memo:
+#                 return memo[(i, total)]
+#             memo[(i, total)] = backtrack(i+1, total+nums[i]) + backtrack(i+1, total-nums[i])
+#             return memo[(i, total)]
+#         return backtrack(0, 0)
     
     # def findTargetSumWays(self, nums, target):
     #     memo = [[0] * (target + 1) for _ in range(len(nums))]
