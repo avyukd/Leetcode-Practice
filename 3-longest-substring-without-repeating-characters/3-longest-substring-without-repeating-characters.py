@@ -8,7 +8,7 @@ class Solution:
                 i = seen[s[j]] + 1
                 for key in list(seen.keys()):
                     if seen[key] < i:
-                        del seen[key]
+                        seen.pop(key)
             print(i, j)
             seen[s[j]] = j
             maxWindow = max(maxWindow, j - i + 1)
