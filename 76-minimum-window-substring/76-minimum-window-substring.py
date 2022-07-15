@@ -1,4 +1,37 @@
 class Solution:
+    def minWindow(self, s, t):
+        minWindowSize, minSubStr = 10**6, ""
+        currWindow = Counter(t)
+        i, j = 0 
+        while j < len(s):
+            if s[j] in currWindow: 
+                if currWindow[s[j]] <= 0 and s[i] == s[j]:
+                    currWindow[s[i]] += 1
+                    i += 1
+                    while s[i] not in currWindow and i <= j:
+                        i += 1
+                currWindow[s[j]] -= 1
+            elif s[j] not in currWindow and i == j:
+                i += 1
+                j += 1
+            if all([currWindow[key] <= 0 for key in currWindow]):
+                if j - i + 1 < minWindowSize:
+                    minWindowSize = j - i + 1
+                    minSubStr = s[i:j+1]
+                currWindow[s[i]] += 1
+                i += 1
+                while s[i] not in currWindow and i <= j:
+                    i += 1
+        return minSubStr     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def minWindow(self, s: str, t: str) -> str:
         #edge cases t has length 1
         if len(t) == 1:
