@@ -1,45 +1,66 @@
 class Solution:
-    class UnionFind:
-        def __init__(self, size):
-            # corresponds to index in points
-            self.size = size
-            self.root = [i for i in range(size)]
-            
-        def find(self, x):
-            if x == self.root[x]:
-                return x
-            self.root[x] = self.find(self.root[x])
-            return self.root[x]
-        
-        def unite(self, x, y):
-            rootX, rootY = self.find(x), self.find(y)
-            if rootX != rootY:
-                self.root[rootY] = self.root[rootX]
-                return True
-            else:
-                return False
-        
-        def isMst(self):
-            return len(set(self.root)) == 1
-    
-    def minCostConnectPoints(self, points) -> int:
+    # prims algorithm
+    def minCostConnectPoints(self, points):
         def distance(p1, p2):
-            return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
-        dists = []
-        for i in range(len(points)):
-            for j in range(len(points)):
-                if i != j:
-                    dists.append((distance(points[i], points[j]), i, j))
-        dists.sort(key=lambda x: x[0])
-        uf = self.UnionFind(len(points))
-        i = 0
+             return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+        
+        seen = set([0])
+        pq = []
+        for j in range(1, len(points)):
+            heapq.heappush(pq, (distance(points[0], points[j]), j))
+        
         totalWeight = 0
-        while not uf.isMst():
-            edge = dists[i]
-            if uf.unite(edge[1], edge[2]):
-                totalWeight += edge[0]
-            i += 1
+        while len(seen) != len(points):
+            (edgeWeight, node) = heapq.heappop(pq)
+            if node not in seen:
+                totalWeight += edgeWeight
+                seen.add(node)
+                for j in range(len(points)):
+                    if j not in seen:
+                        heapq.heappush(pq, (distance(points[node], points[j]), j))
         return totalWeight
+
+#     class UnionFind:
+#         def __init__(self, size):
+#             # corresponds to index in points
+#             self.size = size
+#             self.root = [i for i in range(size)]
+            
+#         def find(self, x):
+#             if x == self.root[x]:
+#                 return x
+#             self.root[x] = self.find(self.root[x])
+#             return self.root[x]
+        
+#         def unite(self, x, y):
+#             rootX, rootY = self.find(x), self.find(y)
+#             if rootX != rootY:
+#                 self.root[rootY] = self.root[rootX]
+#                 return True
+#             else:
+#                 return False
+        
+#         def isMst(self):
+#             return len(set(self.root)) == 1
+    
+#     def minCostConnectPoints(self, points) -> int:
+#         def distance(p1, p2):
+#             return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+#         dists = []
+#         for i in range(len(points)):
+#             for j in range(len(points)):
+#                 if i != j:
+#                     dists.append((distance(points[i], points[j]), i, j))
+#         dists.sort(key=lambda x: x[0])
+#         uf = self.UnionFind(len(points))
+#         i = 0
+#         totalWeight = 0
+#         while not uf.isMst():
+#             edge = dists[i]
+#             if uf.unite(edge[1], edge[2]):
+#                 totalWeight += edge[0]
+#             i += 1
+#         return totalWeight
         
 #     def minCostConnectPoints(self, points: List[List[int]]) -> int:
 #         # distance function
