@@ -7,7 +7,6 @@ public:
             string p1 = palindromeAroundCenter(s, i, i);
             string p2 = palindromeAroundCenter(s, i, i+1);
             string longest = (p1.length() > p2.length()) ? p1 : p2; 
-            cout << longest << endl; 
             if(longest.length() > maxSubstring.length()) 
                 maxSubstring = longest; 
         }
