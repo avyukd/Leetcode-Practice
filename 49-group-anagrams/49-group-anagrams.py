@@ -2,27 +2,12 @@ class Solution:
     def groupAnagrams(self, strs):
         anagrams = defaultdict(list)
         for s in strs:
-            key = "".join(list(s).sort())
+            key = s.sort()
             anagrams[key].append(s)
         groupedAnagrams = []
         for key in anagrams:
             groupedAnagrams.append(anagrams[key])
-        return groupedAnagrams
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        return groupedAnagram
     
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         freq_temp = [0] * 26
