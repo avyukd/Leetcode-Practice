@@ -14,44 +14,44 @@ class Solution:
         return max(memo)
                 
     
-#     def longestValidParentheses(self, sin: str) -> int:
-#         memo = {}
-#         def longestValidParenthesesHelper(s):
-#             i = 0
-#             while i < len(s) and s[i] == ")":
-#                 i += 1
+# #     def longestValidParentheses(self, sin: str) -> int:
+# #         memo = {}
+# #         def longestValidParenthesesHelper(s):
+# #             i = 0
+# #             while i < len(s) and s[i] == ")":
+# #                 i += 1
 
-#             j = len(s) - 1
-#             while j >= 0 and s[j] == "(":
-#                 j -= 1
+# #             j = len(s) - 1
+# #             while j >= 0 and s[j] == "(":
+# #                 j -= 1
 
-#             s = s[i:j+1]
+# #             s = s[i:j+1]
             
-#             if s in memo:
-#                 return memo[s]
+# #             if s in memo:
+# #                 return memo[s]
 
-#             # if valid, we are done
-#             if self.validParantheses(s):
-#                 memo[s] = len(s)
-#                 return len(s)
+# #             # if valid, we are done
+# #             if self.validParantheses(s):
+# #                 memo[s] = len(s)
+# #                 return len(s)
 
-#             memo[s] = max(longestValidParenthesesHelper(s[1:]), longestValidParenthesesHelper(s[:-1]))
-#             return memo[s]       
-#         return longestValidParenthesesHelper(sin)
+# #             memo[s] = max(longestValidParenthesesHelper(s[1:]), longestValidParenthesesHelper(s[:-1]))
+# #             return memo[s]       
+# #         return longestValidParenthesesHelper(sin)
             
-    def validParantheses(self, s: str) -> int:
-        stack = deque([])
-        for c in s:
-            if c == "(":
-                stack.append(c)
-            else:
-                if not stack:
-                    return False
-                else:
-                    nxt = stack.pop()
-                    if nxt != "(":
-                        return False
-        if stack:
-            return False
-        else:
-            return True
+#     def validParantheses(self, s: str) -> int:
+#         stack = deque([])
+#         for c in s:
+#             if c == "(":
+#                 stack.append(c)
+#             else:
+#                 if not stack:
+#                     return False
+#                 else:
+#                     nxt = stack.pop()
+#                     if nxt != "(":
+#                         return False
+#         if stack:
+#             return False
+#         else:
+#             return True
