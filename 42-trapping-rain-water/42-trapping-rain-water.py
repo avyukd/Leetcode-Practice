@@ -12,9 +12,8 @@ class Solution:
         for i in range(len(height) - 1, -1, -1):
             rightMax = max(height[i], rightMax)
             right.append(rightMax)
-        right.reverse()
         for i in range(1, len(height) - 1):
-            area = min(left[i - 1], right[i + 1])
+            area = min(left[i - 1], right[-(i + 1)])
             total += 0 if area - height[i] < 0 else area - height[i]
         
         return total
