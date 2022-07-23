@@ -1,4 +1,27 @@
 class Solution:
+    def maxProduct(self, nums):
+        maxProd, minProd = nums[0], nums[0] 
+        for i in range(1, len(nums)):
+            tmpMax = max(minProd * nums[i], maxProd * nums[i], nums[i])
+            minProd = min(minProd * nums[i], maxProd * nums[i], nums[i])
+            maxProd = tmpMax
+        return maxProd
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def maxProduct(self, nums: List[int]) -> int:
         if len(nums) == 0:
             return 0
