@@ -1,13 +1,11 @@
 class Solution:
     def alienOrder(self, words: List[str]) -> str:
-        
-        isoNodes = set(words[0])
-        
+        allNodes = set(words[0])
         edges = []
         for i in range(len(words) - 1):
             # word1 < word2
             for ch in set(words[i + 1]):
-                isoNodes.add(ch)
+                allNodes.add(ch)
             
             word1, word2 = words[i], words[i + 1]
             
@@ -23,62 +21,36 @@ class Solution:
             if i >= len(word1): # no info gain
                 continue
             
-            if j >= len(word2):
+            if j >= len(word2): # invalid
                 return ""
                 
             edges.append((word1[i], word2[j]))
         
         # find the node with indegree 0
         indeg = defaultdict(int)
-        adjList = defaultdict(list)
-        for edge in edges:
-            indeg[edge[0]] += 0
-            indeg[edge[1]] += 1
-            adjList[edge[0]].append(edge[1])
-            if edge[0] in isoNodes:
-                isoNodes.remove(edge[0])
-            if edge[1] in isoNodes:
-                isoNodes.remove(edge[1])
-        
-        for node in isoNodes:
+        adjList = defaultdict(list)        
+                
+        for node in allNodes:
             indeg[node] = 0
             adjList[node] = []
+
+        for edge in edges:
+            indeg[edge[1]] += 1
+            adjList[edge[0]].append(edge[1])
                 
+        roots = []
+        for key in indeg:
+            if indeg[key] == 0:
+                roots.append(key)
+        
         retStr = ""
-        visited = set()
-        while len(visited) != len(indeg.keys()):
-            roots = []
-            for key in indeg:
-                if indeg[key] == 0 and key not in visited:
-                    roots.append(key)
-            if len(roots) == 0:
-                return ""
-            for root in roots:
-                visited.add(root)
-                retStr += root
-                for child in adjList[root]:
-                    indeg[child] -= 1
-        
-        return retStr
+        while len(roots) > 0:
+            root = roots.pop()
+            retStr += root
+            for child in adjList[root]:
+                indeg[child] -= 1
+                if indeg[child] == 0:
+                    roots.append(child)
+                
+        return "" if len(retStr) != len(allNodes) else retStr
     
-#         ret = ""
-#         for node in isoNodes:
-#             ret += node
-        
-#         roots = []
-#         for key in indeg:
-#             if indeg[key] == 0:
-#                 roots.append(key)
-        
-#         if roots == [] and ret == "":
-#             return ""
-                
-#         for root in roots:
-#             curr = root
-#             while curr in adjList:
-#                 ret += curr
-#                 curr = adjList[curr]
-#             ret += curr
-                
-#         return ret
-                    
