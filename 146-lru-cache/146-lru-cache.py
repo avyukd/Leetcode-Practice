@@ -23,13 +23,7 @@ class DLL:
         node.prev.next = node.next
         node.next.prev = node.prev
         node.next, node.prev = None, None
-    
-    def removeLRU(self):
-        toRemove = self.head.next
-        self.head.next = toRemove.next
-        toRemove.next.prev = self.head
-        return toRemove.key
-        
+
 class LRUCache:
 
     def __init__(self, capacity: int):
@@ -56,16 +50,11 @@ class LRUCache:
             self.keyToNode[key] = Node(key, value)
             self.size += 1
             if self.size > self.capacity:
-                k = self.cache.removeLRU()
-                del self.keyToNode[k]
+                tmp = self.cache.head.next
+                del self.keyToNode[tmp.key]
+                self.cache.remove(tmp)
             self.cache.insert(self.keyToNode[key])
     
-    def printCache(self):
-        root = self.cache.head
-        while root:
-            print(root.key, root. val, end=", ")
-            root = root.next
-        print()
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
