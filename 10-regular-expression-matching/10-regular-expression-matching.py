@@ -12,7 +12,9 @@ class Solution:
         if p[-1] != '*':
             plist.append(p[-1])
         
-        def backtrack(word, pattern):
+        @cache
+        def backtrack(i, j):
+            word, pattern = s[i:], plist[j:]
             if len(pattern) == 0 and len(word) == 0:
                 return True
             elif len(pattern) == 0:
@@ -21,16 +23,16 @@ class Solution:
             char, pat = word[0] if len(word) > 0 else "", pattern[0]
             
             if char == pat or (pat == '.' and char != ""):
-                return backtrack(word[1:], pattern[1:])
+                return backtrack(i+1, j+1)
             
             if pat[-1] == '*':
-                i = -1
-                while i < len(word) and (i == -1 or word[i] == pat[0] or pat[0] == '.'):
-                    if backtrack(word[i+1:], pattern[1:]):
+                k = -1
+                while k < len(word) and (k == -1 or word[k] == pat[0] or pat[0] == '.'):
+                    if backtrack(i+k+1, j+1):
                         return True
-                    i += 1
+                    k += 1
                 return False
             return False
         
-        return backtrack(s, plist)
+        return backtrack(0, 0)
         
