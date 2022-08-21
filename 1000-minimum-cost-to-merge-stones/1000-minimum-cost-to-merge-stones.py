@@ -6,9 +6,7 @@ class Solution:
             for i in range(n):
                 prefix[i + 1] = prefix[i] + stones[i]
 
-            import functools
-
-            @functools.lru_cache(None)
+            @cache
             def dp(i, j, m):
                 if (j - i + 1 - m) % (K - 1):
                     return inf
