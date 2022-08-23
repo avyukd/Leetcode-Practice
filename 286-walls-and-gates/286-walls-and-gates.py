@@ -3,34 +3,30 @@ class Solution:
         """
         Do not return anything, modify rooms in-place instead.
         """
-        # start from gates and bfs outwards
-        m, n = len(rooms), len(rooms[0])
         INF = 2**31 - 1
-        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
-        def bfs(gates):
-            queue = deque(gates)
-            depth = 0
-            visited = set()
-            while queue:
-                level = list(queue)
-                queue = deque([])
-                for nxt in level:
-                    (i, j) = nxt
-                    if (i, j) not in visited:
-                        rooms[i][j] = min(rooms[i][j], depth)
-                        visited.add((i, j))
-                        for d in directions:
-                            next_i, next_j = i + d[0], j + d[1]
-                            if 0 <= next_i < m and 0 <= next_j < n:
-                                if rooms[next_i][next_j] != -1 and rooms[next_i][next_j] != 0:
-                                    queue.append((next_i, next_j))
-                depth += 1
+        m, n = len(rooms), len(rooms[0])
         
+        # get list of gates
         gates = []
         for i in range(m):
             for j in range(n):
                 if rooms[i][j] == 0:
-                    gates.append((i, j))
-        bfs(gates)
+                    gates.append((i, j, 0))
         
+        # bfs from the gates, update room distances. stop at walls, gates, outside
         
+        dirs = [(0,1), (1,0), (0,-1), (-1,0)]
+        queue = deque(gates)
+        visited = set()
+        while queue:
+            (i, j, d) = queue.popleft()
+            
+            rooms[i][j] = min(rooms[i][j], d) 
+            
+            if (i, j) not in visited:
+                visited.add((i, j))
+                for di, dj in dirs:
+                    ni, nj = i + di, j + dj
+                    if 0 <= ni < m and 0 <= nj < n and rooms[ni][nj] not in (0, -1):
+                        queue.append((ni, nj, d + 1))
+                
