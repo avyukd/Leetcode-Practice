@@ -1,20 +1,21 @@
 class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> res = {};
-        permuteHelper(0, nums, res);
-        return res;
+        vector<vector<int>> perms = {};
+        genPerms(0, nums, perms);
+        return perms;
     }
     
-    void permuteHelper(int start, vector<int>& nums, vector<vector<int>>& res) {
-        if(start == nums.size()){
-            res.push_back(nums);
+    void genPerms(int i, vector<int>& curr, vector<vector<int>>& perms) {
+        if(i == curr.size()){
+            perms.push_back(curr);
             return;
         }
-        for(int i = start; i < nums.size(); i++){
-            swap(nums[i], nums[start]);
-            permuteHelper(start + 1, nums, res);
-            swap(nums[i], nums[start]);
+        
+        for(int j = i; j < curr.size(); ++j){
+            swap(curr[i], curr[j]);
+            genPerms(i + 1, curr, perms);
+            swap(curr[j], curr[i]);
         }
     }
 };
