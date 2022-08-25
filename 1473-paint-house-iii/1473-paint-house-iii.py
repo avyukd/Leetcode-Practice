@@ -1,20 +1,42 @@
 class Solution:
-    def minCost(self, houses: List[int], cost: List[List[int]], m: int, n: int, target: int) -> int:
-        @lru_cache(None)
-        def dfs(i, k, p):
-            if i == m and k == target: return 0
-            if i >= m or k > target: return inf
-            
-            res = inf
-            if houses[i]:
-                res = min(res, dfs(i+1, k + (houses[i] != p), houses[i]))
-            else:
-                for c in range(1, n+1):
-                    res = min(res, cost[i][c-1] + dfs(i+1, k + (c != p), c))
-            return res
+    def minCost(self, houses, cost, m, n, target):
         
+        @cache
+        def dfs(i, hoods, prev):
+            if i == m and hoods == target:
+                return 0
+            elif i >= m or hoods > target:
+                return inf
+            
+            if houses[i]:
+                # alr painted
+                return dfs(i + 1, hoods + (houses[i] != prev), houses[i])
+            else:
+                ans = inf
+                for col in range(1, n + 1):
+                    ans = min(ans, cost[i][col - 1] + dfs(i + 1, hoods + (col != prev), col))
+                return ans
+            
         res = dfs(0, 0, None)
-        return res if res < inf else -1
+        return -1 if res >= inf else res
+            
+            
+#     def minCost(self, houses: List[int], cost: List[List[int]], m: int, n: int, target: int) -> int:
+#         @lru_cache(None)
+#         def dfs(i, k, p):
+#             if i == m and k == target: return 0
+#             if i >= m or k > target: return inf
+            
+#             res = inf
+#             if houses[i]:
+#                 res = min(res, dfs(i+1, k + (houses[i] != p), houses[i]))
+#             else:
+#                 for c in range(1, n+1):
+#                     res = min(res, cost[i][c-1] + dfs(i+1, k + (c != p), c))
+#             return res
+        
+#         res = dfs(0, 0, None)
+#         return res if res < inf else -1
 
     
 #     def minCost(self, houses: List[int], cost: List[List[int]], m: int, n: int, target: int) -> int:
