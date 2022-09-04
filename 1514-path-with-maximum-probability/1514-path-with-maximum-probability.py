@@ -27,6 +27,7 @@ class Solution:
                     visited.add(node)
 
                     for (prob, child) in adjList[node]:
-                        heapq.heappush(queue, (-abs(cost * prob), child))
+                        if child not in visited:
+                            heapq.heappush(queue, (-abs(cost * prob), child))
         
         return maxprob
