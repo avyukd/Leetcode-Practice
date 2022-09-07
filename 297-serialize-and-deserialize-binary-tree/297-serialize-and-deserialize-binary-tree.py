@@ -13,60 +13,45 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
+        nodes = []
         queue = deque([root])
-        tree = []
-        while True:
-            level = queue.copy()
-            queue = deque([])
-            allNullFlag = True
-            for node in level:
-                if node is None:
-                    tree.append("null")
-                else:
-                    allNullFlag = False
-                    tree.append(str(node.val))
-                    queue.append(node.left)
-                    queue.append(node.right)
-            if allNullFlag:
-                break
-        return " ".join(tree)
+        while queue:
+            levelLen = len(queue)
+            for _ in range(levelLen):
+                nxt = queue.popleft()
+                nodes.append("null" if nxt is None else str(nxt.val))
+                if nxt is not None:
+                    queue.append(nxt.left)
+                    queue.append(nxt.right)
+        return ",".join(nodes)
         
-        
-
     def deserialize(self, data):
         """Decodes your encoded data to tree.
         
         :type data: str
         :rtype: TreeNode
         """
-                
-        tree = data.split(" ")
-        if len(tree) == 1:
+        if data == "null":
             return None
         
-        tree = [None if node == "null" else int(node) for node in tree]
+        nodes = data.split(",")
+        nodes = deque(nodes)
+        head = TreeNode(int(nodes.popleft()))
+        queue = deque([head])
+        while queue:
+            curr = queue.popleft()
+            if nodes:
+                left = nodes.popleft()
+                curr.left = TreeNode(int(left)) if left != "null" else None
+                if curr.left:
+                    queue.append(curr.left)
+            if nodes:
+                right = nodes.popleft()
+                curr.right = TreeNode(int(right)) if right != "null" else None
+                if curr.right:
+                    queue.append(curr.right)
+        return head
         
-        tree = deque(tree)
-        
-        i = 0
-        root = TreeNode(tree[0])
-        tree.popleft()
-        queue = deque([root])
-        while tree:
-            level = queue.copy()
-            queue = deque([])
-            for node in level:
-                if node is not None:
-                    if tree:
-                        left = tree.popleft()
-                        node.left = None if left is None else TreeNode(left)
-                        queue.append(node.left)
-                    if tree:
-                        right = tree.popleft()
-                        node.right = None if right is None else TreeNode(right)
-                        queue.append(node.right)
-        
-        return root
 
 # Your Codec object will be instantiated and called as such:
 # ser = Codec()
