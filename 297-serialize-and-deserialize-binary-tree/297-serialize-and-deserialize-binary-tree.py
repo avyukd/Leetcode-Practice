@@ -35,18 +35,20 @@ class Codec:
             return None
         
         nodes = data.split(",")
-        nodes = deque(nodes)
-        head = TreeNode(int(nodes.popleft()))
+        head = TreeNode(int(nodes[0]))
         queue = deque([head])
+        i = 1
         while queue:
             curr = queue.popleft()
             if nodes:
-                left = nodes.popleft()
+                left = nodes[i] # .popleft()
+                i += 1
                 curr.left = TreeNode(int(left)) if left != "null" else None
                 if curr.left:
                     queue.append(curr.left)
             if nodes:
-                right = nodes.popleft()
+                right = nodes[i]
+                i += 1
                 curr.right = TreeNode(int(right)) if right != "null" else None
                 if curr.right:
                     queue.append(curr.right)
