@@ -1,66 +1,61 @@
 class Node:
     def __init__(self, key, val):
-        self.key = key
-        self.val = val
-        self.prev = None
-        self.next = None
-        
+        self.key, self.val = key, val
+        self.prev, self.next = None, None
+
 class DLL:
     def __init__(self):
-        self.head = Node(0, 0) # dummy
-        self.tail = Node(0, 0) # dummy
+        # dummy nodes to help with edge cases
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
         self.head.next = self.tail
         self.tail.prev = self.head
     
-    # insert at end of list
+    # insert at the front
     def insert(self, node):
-        tmp = self.tail.prev
-        tmp.next = node
-        self.tail.prev = node
-        node.next = self.tail
-        node.prev = tmp
+        tmp = self.head.next
+        self.head.next = node
+        node.prev = self.head
+        node.next = tmp
+        tmp.prev = node
     
-    # remove a specific node, lru is at front
-    def remove(self, node):
+    # remove, returns removed node
+    def remove(self, node=None): # LRU
+        if node is None:
+            return self.remove(self.tail.prev)
         node.prev.next = node.next
         node.next.prev = node.prev
+        return node
     
-    def getLRU(self):
-        return self.head.next
-        
 class LRUCache:
 
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.size = 0
-        
-        self.cache = DLL()
+        self.size = 0 
         self.keyToNode = {}
+        self.cache = DLL()
 
     def get(self, key: int) -> int:
         if key in self.keyToNode:
-            self.cache.remove(self.keyToNode[key])
-            self.cache.insert(self.keyToNode[key])
-            return self.keyToNode[key].val
+            ans = self.keyToNode[key].val
+            self.cache.insert(self.cache.remove(self.keyToNode[key]))
+            return ans
         else:
             return -1
-
+    
     def put(self, key: int, value: int) -> None:
         if key in self.keyToNode:
-            self.cache.remove(self.keyToNode[key])
-            self.cache.insert(self.keyToNode[key])
             self.keyToNode[key].val = value
+            self.cache.insert(self.cache.remove(self.keyToNode[key]))
         else:
             if self.size + 1 > self.capacity:
-                lruNode = self.cache.getLRU()
-                lruKey = lruNode.key
-                self.cache.remove(lruNode)
-                del self.keyToNode[lruKey]
+                rKey = self.cache.remove().key # remove lru
+                del self.keyToNode[rKey]
                 self.size -= 1
             self.keyToNode[key] = Node(key, value)
             self.cache.insert(self.keyToNode[key])
             self.size += 1
-
+            
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
